@@ -7,123 +7,135 @@ using System.ComponentModel.DataAnnotations;
 namespace BellitBot
 {
     using System;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Reflection;
+    using System.Text;
     using Microsoft.Bot.Builder.FormFlow;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+    //using static System.Net.Mime.MediaTypeNames;
 
     [Serializable]
     public class BooksQuery
     {
+        // Question 1
         [Template(TemplateUsage.NotUnderstood, "Пожалуйста, повторите ввод")]
-        [Template(TemplateUsage.EnumSelectOne, "Ваш возраст {||}", ChoiceStyle = ChoiceStyleOptions.Auto)]
-        public Question1? Age; // type: Enumeration
-
-        [Template(TemplateUsage.EnumSelectOne, "Ваш пол {||}", ChoiceStyle = ChoiceStyleOptions.Auto)]
-        public Question2? Gender; // type: Enumeration
-        [Template(TemplateUsage.EnumSelectOne, "Еще кое-что {||}", ChoiceStyle = ChoiceStyleOptions.Auto)]
-        public Question3? Something; // type: Enumeration
-
-
+        [Template(TemplateUsage.EnumSelectOne, "Якім кнігам вы аддаеце перавагу? {||}", ChoiceStyle = ChoiceStyleOptions.Auto)]
+        public Question1? Q1;
+        // Answers
         [Serializable]
         public enum Question1
         {
-            [Terms("18")]
-            [Describe("18")]
-            age18 = 1,
-            [Terms("20")]
-            [Describe("20")]
-            age20 = 2,
-            [Terms("30")]
-            [Describe("30")]
-            age30 = 3
+            [Terms("Першая")]
+            [Describe("Першая")]
+            [BooksAttribute(new string[] { "Дагератып", "Зваротная перспектыва", "Быў у пана верабейка гаварушчы" })]
+            one,
+            [Terms("Другая")]
+            [Describe("Другая")]
+            [BooksAttribute(new string[] { "Быў у пана верабейка гаварушчы", "Белая муха, забойца мужчын", "Таўсьціла і лешч" })]
+            two,
+            [Terms("Трэцяя")]
+            [Describe("Трэцяя")]
+            [BooksAttribute(new string[] { "Белая муха, забойца мужчын", "Дагератып" })]
+            three
         }
 
+        // Question 2
+        [Template(TemplateUsage.EnumSelectOne, "Якая з гэтых цытат характэрызуе вашае жыццё? {||}", ChoiceStyle = ChoiceStyleOptions.Auto)]
+        public Question2? Q2;
+        // Answers
         [Serializable]
         public enum Question2
         {
             [Terms("Я мужчина")]
             [Describe("Я мужчина")]
-            M = 4,
+            [BooksAttribute(new string[] { "Дагератып", "Зваротная перспектыва" })]
+            one,
             [Terms("Я женщина")]
             [Describe("Я женщина")]
-            F = 5
+            [BooksAttribute(new string[] { "Быў у пана верабейка гаварушчы", "Белая муха, забойца мужчын" })]
+            two
         }
 
+        // Question 3
+        [Template(TemplateUsage.EnumSelectOne, "Куды б вы паехалі на адпачынак? {||}", ChoiceStyle = ChoiceStyleOptions.Auto)]
+        public Question3? Q3;
+        // Answers
         [Serializable]
         public enum Question3
         {
-            [Terms("раз")]
-            [Describe("раз")]
-            One = 6,
-            [Terms("два")]
-            [Describe("два")]
-            Two = 7,
-            [Terms("три")]
-            [Describe("три")]
-            Three = 8
+            [Terms("Браслаўскія азёры")]
+            [Describe("Браслаўскія азёры")]
+            [BooksAttribute(new string[] { "Быў у пана верабейка гаварушчы", "Белая муха, забойца мужчын" })]
+            one,
+            [Terms("Грэцыя")]
+            [Describe("Грэцыя")]
+            [BooksAttribute(new string[] { "Быў у пана верабейка гаварушчы", "Белая муха, забойца мужчын" })]
+            two,
+            [Terms("Нямеччына")]
+            [Describe("Нямеччына")]
+            [BooksAttribute(new string[] { "Быў у пана верабейка гаварушчы", "Белая муха, забойца мужчын" })]
+            three,
+            [Terms("Грэнландыя")]
+            [Describe("Грэнландыя")]
+            [BooksAttribute(new string[] { "Быў у пана верабейка гаварушчы", "Белая муха, забойца мужчын" })]
+            four,
+            [Terms("Застануся дома")]
+            [Describe("Застануся дома")]
+            [BooksAttribute(new string[] { "Быў у пана верабейка гаварушчы", "Белая муха, забойца мужчын" })]
+            five
         }
 
+        /**
+         * Here all questions should be specified.
+         */
+        public List<string[]> GetListNames()
+        {
+            List<string[]> list = new List<string[]>();
+
+            list.Add(Q1.GetAttribute<BooksAttribute>().Names);
+            list.Add(Q2.GetAttribute<BooksAttribute>().Names);
+            list.Add(Q3.GetAttribute<BooksAttribute>().Names);
+
+            return list;
+        }
+
+        /**
+         * Load Books list from JSON.
+         */
         public static List<Book> GetBooksList()
         {
-            var books = new List<Book>();
 
-            books.Add(new Book()
-            {
-                Name = "Дагератып",
-                Author = "Людміла Рублеўская",
-                Cover = "https://pen-centre.by/img/2_rubleuskaja.jpg",
-                SelectedTimes = 0
-            });
+            StreamReader reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("BellitBot.Resources.Books.json"));
+            string json = reader.ReadToEnd();
 
-            books.Add(new Book()
-            {
-                Name = "Белая муха, забойца мужчын",
-                Author = "Альгерд Бахарэвіч",
-                Cover = "http://gedroyc.by/img/2016/baharewicz160210-xxdwg.jpg",
-                SelectedTimes = 0
-            });
-
-            books.Add(new Book()
-            {
-                Name = "Быў у пана верабейка гаварушчы",
-                Author = "Зміцер Бартосік",
-                Cover = "https://pen-centre.by/img/1_bartosik.png",
-                SelectedTimes = 0
-            });
-
-            books.Add(new Book()
-            {
-                Name = "Таўсьціла і лешч",
-                Author = "Андрэй Адамовіч",
-                Cover = "http://gedroyc.by/img/2016/29-602778.jpg",
-                SelectedTimes = 0
-            });
-
-            books.Add(new Book()
-            {
-                Name = "Зваротная перспектыва",
-                Author = "Адам Глобус",
-                Cover = "https://pen-centre.by/img/3_hlobus.jpg",
-                SelectedTimes = 0
-            });
-
+            List<Book> books = JsonConvert.DeserializeObject<List<Book>>(json);
 
             return books;
         }
-        
-        /**
-         * Get answers and their book variants.
-         */
-        public static Dictionary<Enum, string[]> GetVariantsDictionary()
+    }
+
+    public static class EnumExtensions
+    {
+        public static TAttribute GetAttribute<TAttribute>(this Enum value)
+            where TAttribute : Attribute
         {
-            var dict = new Dictionary<Enum, string[]>();
-            dict.Add(Question1.age18, new string[] { "Дагератып", "Зваротная перспектыва", "Быў у пана верабейка гаварушчы" });
-            dict.Add(Question1.age20, new string[] { "Быў у пана верабейка гаварушчы", "Белая муха, забойца мужчын", "Таўсьціла і лешч" });
-            dict.Add(Question1.age30, new string[] { "Белая муха, забойца мужчын", "Дагератып" });
-            dict.Add(Question2.M, new string[] { "Дагератып", "Зваротная перспектыва" });
-            dict.Add(Question2.F, new string[] { "Быў у пана верабейка гаварушчы", "Белая муха, забойца мужчын" });
-            dict.Add(Question3.One, new string[] { "Быў у пана верабейка гаварушчы", "Белая муха, забойца мужчын" });
-            dict.Add(Question3.Two, new string[] { "Быў у пана верабейка гаварушчы", "Белая муха, забойца мужчын" });
-            dict.Add(Question3.Three, new string[] { "Быў у пана верабейка гаварушчы", "Белая муха, забойца мужчын" });
-            return dict;
+            var type = value.GetType();
+            var name = Enum.GetName(type, value);
+            return type.GetField(name)
+                .GetCustomAttributes(false)
+                .OfType<TAttribute>()
+                .SingleOrDefault();
         }
+    }
+
+    public class BooksAttribute : Attribute
+    {
+        internal BooksAttribute(string[] names)
+        {
+            this.Names = names;
+        }
+        public string[] Names { get; private set; }
     }
 }

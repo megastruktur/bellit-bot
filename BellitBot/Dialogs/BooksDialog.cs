@@ -14,7 +14,7 @@
     {
         public async Task StartAsync(IDialogContext context)
         {
-            await context.PostAsync("Добро пожаловать в поиск книг!");
+            //await context.PostAsync("Добро пожаловать в поиск книг!");
 
             var booksFormDialog = FormDialog.FromForm(this.BuildBooksForm, FormOptions.PromptInStart);
 
@@ -25,16 +25,16 @@
         {
             OnCompletionAsyncDelegate<BooksQuery> processBooksSearch = async (context, state) =>
             {
-                //await context.PostAsync($"Ищем книжки...");
+                await context.PostAsync($"Ищем книжки...");
 
 
                 //await context.PostAsync($"Ok. Searching for Books in {state.Destination} from {state.CheckIn.ToString("MM/dd")} to {state.CheckIn.AddDays(state.Nights).ToString("MM/dd")}...");
             };
 
             return new FormBuilder<BooksQuery>()
-                .Field(nameof(BooksQuery.Age))
+                .Field(nameof(BooksQuery.Q1))
                 .AddRemainingFields()
-                .Message("Ищем подходящие книги...")
+                //.Message("Ищем подходящие книги...")
                 .OnCompletion(processBooksSearch)
                 .Build();
         }
@@ -62,6 +62,15 @@
                     {
                         new CardImage() { Url = book.Cover }
                     },
+                    Buttons = new List<CardAction>()
+                    {
+                        new CardAction()
+                        {
+                            Title = "Яшчэ раз",
+                            Type = ActionTypes.PostBack,
+                            Value = "Хачу яшчэ"
+                        }
+                    }
                     //Buttons = new List<CardAction>()
                     //{
                     //    new CardAction()
@@ -101,32 +110,39 @@
         private async Task<IEnumerable<Book>> GetBooksAsync(BooksQuery searchQuery)
         {
             var books = BooksQuery.GetBooksList();
-            var variants = BooksQuery.GetVariantsDictionary();
 
-            books = FillBooksSelectedTimes(books, variants[searchQuery.Age]);
-            books = FillBooksSelectedTimes(books, variants[searchQuery.Gender]);
-            books = FillBooksSelectedTimes(books, variants[searchQuery.Something]);
+            var list = searchQuery.GetListNames();
+            books = FillBooksSelectedTimes(books, list);
 
-            books.Sort((h1, h2) => h1.SelectedTimes.CompareTo(h2.SelectedTimes));
+            books.Sort((h1, h2) => h2.SelectedTimes.CompareTo(h1.SelectedTimes));
 
             return books;
         }
 
-        List<Book> FillBooksSelectedTimes(List<Book> books, string[] selected)
+        /**
+         * Counts books and fills in the SelectedTimes property.
+         */
+        List<Book> FillBooksSelectedTimes(List<Book> books, List<string[]> answersList)
         {
             List<Book> returnBooks = new List<Book>();
-            foreach (Book book in books)
+
+            foreach (string[] answerList in answersList)
             {
-                foreach (string bookName in selected)
+                foreach (Book book in books)
                 {
-                    if (book.Name == bookName)
+                    foreach (string bookName in answerList)
                     {
-                        book.SelectedTimes++;
+                        if (book.Name == bookName)
+                        {
+                            book.SelectedTimes++;
+                        }
                     }
+                    returnBooks.Add(book);
                 }
-                returnBooks.Add(book);
+
             }
             return books;
         }
     }
 }
+ 

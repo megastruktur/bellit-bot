@@ -13,7 +13,7 @@ namespace BellitBot.Dialogs
     {
         //private const string FlightsOption = "Flights";
 
-        private const string BooksOption = "Да";
+        private const string BooksOption = "Знайсці";
 
         public async Task StartAsync(IDialogContext context)
         {
@@ -28,7 +28,7 @@ namespace BellitBot.Dialogs
 
         private void ShowOptions(IDialogContext context)
         {
-            PromptDialog.Choice(context, this.OnOptionSelected, new List<string>() { BooksOption }, "Вы готовы пройти тест?", "Выбор неверный", 3);
+            PromptDialog.Choice(context, this.OnOptionSelected, new List<string>() { BooksOption }, "Добры дзень! Я той самы чат-бот, які дапаможа табе выбраць кнігу для прачытання з шорт-ліста Прэміі Гедройца - найбуйнейшай незалежнай літаратурнай прэміі. Пачнем?✌", "Выбор неверный", 3);
         }
 
         private async Task OnOptionSelected(IDialogContext context, IAwaitable<string> result)

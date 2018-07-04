@@ -13,6 +13,8 @@ namespace BellitBot
         public string Name { get; set; }
         public string Author { get; set; }
         public string Cover { get; set; }
+        public int Year { get; set; }
+        public int Place { get; set; }
         public int SelectedTimes = 0;
     }
 }
