@@ -25,7 +25,7 @@
         {
             OnCompletionAsyncDelegate<BooksQuery> processBooksSearch = async (context, state) =>
             {
-                await context.PostAsync($"Ищем книжки...");
+                await context.PostAsync($"Пошук кнiгi...");
 
 
                 //await context.PostAsync($"Ok. Searching for Books in {state.Destination} from {state.CheckIn.ToString("MM/dd")} to {state.CheckIn.AddDays(state.Nights).ToString("MM/dd")}...");
