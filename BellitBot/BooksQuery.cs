@@ -19,16 +19,38 @@ namespace BellitBot
     [Serializable]
     public class BooksQuery
     {
+        /*
+        [Template(TemplateUsage.NotUnderstood, "Пожалуйста, повторите ввод")]
+        [Template(TemplateUsage.EnumSelectOne, "Якім кнігам вы аддаеце перавагу? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
+        public Question0? Q0;
+        // Answers
+        [Serializable]
+        public enum Question0
+        {
+            [Terms("Першая")]
+            [Describe("Першая")]
+            [BooksAttribute(new string[] { "Дагератып", "Зваротная перспектыва", "Быў у пана верабейка гаварушчы" })]
+            one,
+            [Terms("Другая")]
+            [Describe("Другая")]
+            [BooksAttribute(new string[] { "Быў у пана верабейка гаварушчы", "Белая муха, забойца мужчын", "Таўсьціла і лешч" })]
+            two,
+            [Terms("Трэцяя")]
+            [Describe("Трэцяя")]
+            [BooksAttribute(new string[] { "Белая муха, забойца мужчын", "Дагератып" })]
+            three
+        }
+        */
         // Question 1
         [Template(TemplateUsage.NotUnderstood, "Калі ласка, паўтарыце ўвод")]
-        [Template(TemplateUsage.EnumSelectOne, "Напачатку - якія ў Вас стасункі з літаратурай? {||}", ChoiceStyle = ChoiceStyleOptions.Auto)]
+        [Template(TemplateUsage.EnumSelectOne, "Напачатку - якія ў Вас стасункі з літаратурай? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
         public Question1? Q1;
         // Answers
         [Serializable]
         public enum Question1
         {
-            [Terms("Чытаю шмат і штодзенна")]
-            [Describe("Чытаю шмат і штодзенна")]
+            [Terms("Чытаю шмат і штодзенна.")]
+            [Describe("Чытаю шмат і штодзенна.")]
             [BooksAttribute(new string[] { "Сядзіба", "Сабакі Эўропы" })]
             one,
             [Terms("Не чытаў ўжо дауно")]
@@ -46,7 +68,8 @@ namespace BellitBot
         }
 
         // Question 2
-        [Template(TemplateUsage.EnumSelectOne, "Якім кнігам вы аддаеце перавагу? {||}", ChoiceStyle = ChoiceStyleOptions.Auto)]
+        [Template(TemplateUsage.NotUnderstood, "Калі ласка, паўтарыце ўвод")]
+        [Template(TemplateUsage.EnumSelectOne, "Якім кнігам вы аддаеце перавагу? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
         public Question2? Q2;
         // Answers
         [Serializable]
@@ -75,7 +98,8 @@ namespace BellitBot
         }
 
         // Question 3
-        [Template(TemplateUsage.EnumSelectOne, "Куды б вы паехалі на адпачынак? {||}", ChoiceStyle = ChoiceStyleOptions.Auto)]
+        [Template(TemplateUsage.NotUnderstood, "Калі ласка, паўтарыце ўвод")]
+        [Template(TemplateUsage.EnumSelectOne, "Куды б вы паехалі на адпачынак? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
         public Question3? Q3;
         // Answers
         [Serializable]
@@ -103,8 +127,9 @@ namespace BellitBot
             five
         }
 
-        // Question 4        
-        [Template(TemplateUsage.EnumSelectOne, "Ваш любімы беларускі прысмак? {||}", ChoiceStyle = ChoiceStyleOptions.Auto)]
+        // Question 4
+        [Template(TemplateUsage.NotUnderstood, "Калі ласка, паўтарыце ўвод")]
+        [Template(TemplateUsage.EnumSelectOne, "Ваш любімы беларускі прысмак? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
         public Question4? Q4;
         // Answers
         [Serializable]
@@ -128,8 +153,9 @@ namespace BellitBot
             four
         }
 
-        // Question 5        
-        [Template(TemplateUsage.EnumSelectOne, "Якую з гэтых карцінак Вы б абралі для авы на фэйсбуку? {||}", ChoiceStyle = ChoiceStyleOptions.Auto)]
+        // Question 5
+        [Template(TemplateUsage.NotUnderstood, "Калі ласка, паўтарыце ўвод")]
+        [Template(TemplateUsage.EnumSelectOne, "Якую з гэтых карцінак Вы б абралі для авы на фэйсбуку? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
         public Question5? Q5;
         // Answers
         [Serializable]
@@ -161,8 +187,9 @@ namespace BellitBot
             six
         }
 
-        // Question 6        
-        [Template(TemplateUsage.EnumSelectOne, "Зараз будзе скаладана. Якая з гэтых цытат характэрызуе Ваша жыццё? {||}", ChoiceStyle = ChoiceStyleOptions.Auto)]
+        // Question 6
+        [Template(TemplateUsage.NotUnderstood, "Калі ласка, паўтарыце ўвод")]
+        [Template(TemplateUsage.EnumSelectOne, "Зараз будзе скаладана. Якая з гэтых цытат характэрызуе Ваша жыццё? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
         public Question6? Q6;
         // Answers
         [Serializable]
@@ -194,15 +221,16 @@ namespace BellitBot
             six
         }
 
-        // Question 7        
-        [Template(TemplateUsage.EnumSelectOne, "Уявім, што Вы жадаеце прачытаць пэўную кнігу. Куды вы за ёй пойдзеце? {||}", ChoiceStyle = ChoiceStyleOptions.Auto)]
+        // Question 7
+        [Template(TemplateUsage.NotUnderstood, "Калі ласка, паўтарыце ўвод")]
+        [Template(TemplateUsage.EnumSelectOne, "Уявім, што Вы жадаеце прачытаць пэўную кнігу. Куды вы за ёй пойдзеце? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
         public Question7? Q7;
         // Answers
         [Serializable]
         public enum Question7
         {
             [Terms("У звычайную кнігарню")]
-            [Describe("у звычайную кнігарню")]
+            [Describe("У звычайную кнігарню")]
             [BooksAttribute(new string[] { "Русалкі клічуць" })]
             one,
             [Terms("Да сяброў, у іх звычайна ўсё такое ёсць")]
@@ -227,8 +255,9 @@ namespace BellitBot
             six
         }
 
-        // Question 8        
-        [Template(TemplateUsage.EnumSelectOne, "Ну Вы, канешне, цікавы суразмоўца! Распавядзеце нам, як Вы чытаеце? {||}", ChoiceStyle = ChoiceStyleOptions.Auto)]
+        // Question 8
+        [Template(TemplateUsage.NotUnderstood, "Калі ласка, паўтарыце ўвод")]
+        [Template(TemplateUsage.EnumSelectOne, "Ну Вы, канешне, цікавы суразмоўца! Распавядзеце нам, як Вы чытаеце? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
         public Question8? Q8;
         // Answers
         [Serializable]
@@ -256,8 +285,9 @@ namespace BellitBot
             five
         }
 
-        // Question 9        
-        [Template(TemplateUsage.EnumSelectOne, "Аб набалелым: калі б Вы былі кіраўніком маленькага, але вельмі сумленнага народа, то Вы б?.. {||}", ChoiceStyle = ChoiceStyleOptions.Auto)]
+        // Question 9
+        [Template(TemplateUsage.NotUnderstood, "Калі ласка, паўтарыце ўвод")]
+        [Template(TemplateUsage.EnumSelectOne, "Аб набалелым: калі б Вы былі кіраўніком маленькага, але вельмі сумленнага народа, то Вы б?.. {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
         public Question9? Q9;
         // Answers
         [Serializable]
@@ -289,8 +319,9 @@ namespace BellitBot
             six
         }
 
-        // Question 10        
-        [Template(TemplateUsage.EnumSelectOne, "Апошняе пытанне. З якім чалавекам Вы б пайшлі і ў агонь, і ў ваду? {||}", ChoiceStyle = ChoiceStyleOptions.Auto)]
+        // Question 10
+        [Template(TemplateUsage.NotUnderstood, "Калі ласка, паўтарыце ўвод")]
+        [Template(TemplateUsage.EnumSelectOne, "Апошняе пытанне. З якім чалавекам Вы б пайшлі і ў агонь, і ў ваду? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
         public Question10? Q10;
         // Answers
         [Serializable]
@@ -325,9 +356,17 @@ namespace BellitBot
         {
             List<string[]> list = new List<string[]>();
 
+            //list.Add(Q0.GetAttribute<BooksAttribute>().Names);
             list.Add(Q1.GetAttribute<BooksAttribute>().Names);
             list.Add(Q2.GetAttribute<BooksAttribute>().Names);
             list.Add(Q3.GetAttribute<BooksAttribute>().Names);
+            list.Add(Q4.GetAttribute<BooksAttribute>().Names);
+            list.Add(Q5.GetAttribute<BooksAttribute>().Names);
+            list.Add(Q6.GetAttribute<BooksAttribute>().Names);
+            list.Add(Q7.GetAttribute<BooksAttribute>().Names);
+            list.Add(Q8.GetAttribute<BooksAttribute>().Names);
+            list.Add(Q9.GetAttribute<BooksAttribute>().Names);
+            list.Add(Q10.GetAttribute<BooksAttribute>().Names);
 
             return list;
         }
