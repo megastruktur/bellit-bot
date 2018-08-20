@@ -47,7 +47,7 @@
                 var books = await this.GetBooksAsync(searchQuery);
                 var book = books.First();
 
-                await context.PostAsync($"Мы нашли для Вас подходящую книгу:");
+                await context.PostAsync($"Здаецца, мы знайшлі кнігу, якая падыходзіць менавіта Вам...");
 
                 var resultMessage = context.MakeMessage();
                 resultMessage.AttachmentLayout = AttachmentLayoutTypes.Carousel;
